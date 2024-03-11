@@ -1,0 +1,45 @@
+<div>
+    <h2>Login</h2>
+    <input type="text" name="name" [(ngModel)]="loginName" placeholder="Enter your name">
+    <select [(ngModel)]="userRole">
+        <option value="">Select Role</option>
+        <option value="patient">Patient</option>
+        <option value="doctor">Doctor</option>
+    </select>
+    <button (click)="login()">Login</button>
+</div>
+
+<div *ngIf="userName">
+    <div *ngIf="userRole === 'doctor'">
+        <h3>Doctor Dashboard - Welcome {{ userName }}</h3>
+        <p>Specialization: {{ doctorRecord.specialization }}</p>
+
+        <div>
+            <h4>Add or Update Patient Details</h4>
+            <input type="text" name="patientName" [(ngModel)]="newPatient.name" placeholder="Patient's Name">
+            <input type="text" name="mealPlan" [(ngModel)]="newPatient.mealPlan" placeholder="Meal Plan">
+            <input type="text" name="workoutRoutine" [(ngModel)]="newPatient.workoutRoutine" placeholder="Workout Routine">
+            <input type="text" name="meditationExercise" [(ngModel)]="newPatient.meditationExercise" placeholder="Meditation Exercise">
+            <button (click)="addOrUpdatePatient()">Submit</button>
+        </div>
+
+        <div>
+            <h4>Patient List</h4>
+            <ul>
+                <li *ngFor="let patient of patients">
+                    Name: {{ patient.name }}, Meal Plan: {{ patient.mealPlan }}, Workout Routine: {{
+                    patient.workoutRoutine }}, Meditation Exercise: {{ patient.meditationExercise }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div *ngIf="userRole === 'patient'">
+        <h3>Patient Dashboard - Welcome {{ userName }}</h3>
+        <ng-container *ngIf="getPatientByName(userName)">
+            <p>Meal Plan: {{ getPatientByName(userName)?.mealPlan }}</p>
+            <p>Workout Routine: {{ getPatientByName(userName)?.workoutRoutine }}</p>
+            <p>Meditation Exercise: {{ getPatientByName(userName)?.meditationExercise }}</p>
+        </ng-container>
+    </div>
+</div>
